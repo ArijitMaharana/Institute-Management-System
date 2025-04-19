@@ -1,0 +1,54 @@
+﻿<footer class="custom-footer mt-5">
+    <div class="container py-4 d-flex flex-column flex-md-row justify-content-between align-items-center">
+        <div class="contact-info text-white mb-3 mb-md-0">
+            <h5 class="fw-bold">📬 Contact Us</h5>
+            <p class="mb-1"><i class="fas fa-envelope me-2 text-warning"></i>contact@institute.com</p>
+            <p><i class="fas fa-phone-alt me-2 text-warning"></i>+123 456 7890</p>
+        </div>
+
+        <div class="social-links text-white mb-3 mb-md-0">
+            <h5 class="fw-bold">🔗 Follow Us</h5>
+            <a href="#" class="text-white me-3 social-icon"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="text-white me-3 social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="text-white me-3 social-icon"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="text-white me-3 social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+
+        <div class="copyright text-center text-white">
+            <p class="mb-0">&copy; 2025 Institute Management System. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .custom-footer {
+        background: rgba(44, 62, 80, 0.8);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 2;
+    }
+
+    .social-icon {
+        font-size: 1.2rem;
+        transition: all 0.3s ease-in-out;
+    }
+
+        .social-icon:hover {
+            color: #ffd32a;
+            text-shadow: 0 0 8px #fff, 0 0 12px #ffd32a;
+            transform: scale(1.2);
+        }
+
+    .contact-info i,
+    .social-links i {
+        transition: transform 0.3s ease;
+    }
+
+        .contact-info i:hover,
+        .social-links i:hover {
+            transform: scale(1.2);
+        }
+</style>

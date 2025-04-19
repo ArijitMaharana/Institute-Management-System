@@ -1,0 +1,252 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Institute Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="~/Scripts/jquery-3.x.x.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+    <style>
+        /* 🔷 General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 🔷 NAVBAR GLASS EFFECT */
+        .glass-navbar {
+            background: rgba(31, 28, 44, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00f2fe;
+        }
+
+            .navbar-brand i {
+                margin-right: 10px;
+                color: #ffc107;
+            }
+
+            .navbar-brand span {
+                background: linear-gradient(to right, #00f2fe, #4facfe);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+        .nav-link.glow-hover {
+            color: #fff !important;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 6px 12px;
+        }
+
+            .nav-link.glow-hover:hover {
+                background-color: rgba(25, 19, 240, 0.2);
+                box-shadow: 0 0 10px #1913f0, 0 0 20px #1913f0;
+                transform: translateY(-2px);
+            }
+
+        .nav-link.active {
+            background-color: rgba(25, 19, 240, 0.3);
+            box-shadow: 0 0 10px #1913f0;
+            border-radius: 8px;
+            color: #fff !important;
+        }
+
+        /* 🔷 Admin Dropdown Style */
+        .nav-link.dropdown-toggle.admin-animated {
+            background: linear-gradient(90deg, #ff0080, #8000ff);
+            color: white !important;
+            font-weight: bold;
+            border-radius: 30px;
+            padding: 8px 18px;
+            transition: all 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.4), 0 0 15px rgba(0, 128, 255, 0.4);
+            animation: pulse-glow 2s infinite;
+        }
+
+            .nav-link.dropdown-toggle.admin-animated:hover {
+                transform: scale(1.08);
+                background: linear-gradient(90deg, #e100ff, #0078ff);
+                box-shadow: 0 0 20px rgba(255, 0, 255, 0.6), 0 0 30px rgba(0, 128, 255, 0.6);
+            }
+
+        @@keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 10px rgba(255, 0, 255, 0.4), 0 0 15px rgba(0, 128, 255, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(255, 0, 255, 0.8), 0 0 30px rgba(0, 128, 255, 0.8);
+            }
+        }
+
+        /* 🔷 Dropdown Styling */
+        .navbar .dropdown-menu {
+            background: rgba(31, 31, 60, 0.9);
+            border-radius: 12px;
+            animation: fadeSlideDown 0.4s ease-in-out;
+            backdrop-filter: blur(10px);
+        }
+
+        @@keyframes fadeSlideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .dropdown-item {
+            color: #fff;
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s ease;
+        }
+
+            .dropdown-item i {
+                margin-right: 8px;
+                color: #00f2fe;
+            }
+
+            .dropdown-item:hover {
+                background: linear-gradient(to right, #00f2fe, #4facfe);
+                color: #000;
+            }
+
+                .dropdown-item:hover i {
+                    transform: scale(1.2);
+                    color: #000;
+                }
+
+        .dropdown-divider {
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 🔷 Footer */
+        footer {
+            background-color: #121212;
+            color: white;
+            padding: 20px 0;
+            margin-top: 30px;
+        }
+
+            footer a {
+                color: #00f2fe;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+        /* 🔷 Admin login button */
+        #adminButton {
+            background: linear-gradient(90deg, #ff0080, #8000ff);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+            #adminButton:hover {
+                transform: scale(1.1);
+                background: linear-gradient(90deg, #e100ff, #0078ff);
+                box-shadow: 0 8px 25px rgba(225, 0, 255, 0.4), 0 10px 35px rgba(0, 120, 255, 0.4);
+            }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm glass-navbar sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="/MVCLabTaskLayout/Home/Index">
+                <i class="fas fa-university"></i>
+                <span class="fw-bold fs-4 text-white">My Institute</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto me-4 mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link glow-hover @(ViewBag.ActivePage == "Home" ? "active" : "")" href="/MVCLabTaskLayout/Home/Index"><i class="fas fa-home me-1"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link glow-hover @(ViewBag.ActivePage == "Courses" ? "active" : "")" href="/MVCLabTaskLayout/Courses/CourseList"><i class="fas fa-book me-1"></i> Courses</a></li>
+                    <li class="nav-item"><a class="nav-link glow-hover @(ViewBag.ActivePage == "Admissions" ? "active" : "")" href="/MVCLabTaskLayout/Admissions/Apply"><i class="fas fa-user-edit me-1"></i> Admissions</a></li>
+                    <li class="nav-item"><a class="nav-link glow-hover @(ViewBag.ActivePage == "Faculty" ? "active" : "")" href="/MVCLabTaskLayout/Faculty/Details"><i class="fas fa-chalkboard-teacher me-1"></i> Faculty</a></li>
+
+                    @if (Session["IsAdmin"] != null && (bool)Session["IsAdmin"] == true)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle admin-animated" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-user-shield me-1"></i> Admin
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="/MVCLabTaskLayout/Admin/Dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                                <li><a class="dropdown-item" href="/MVCLabTaskLayout/Admin/DisplayStudents"><i class="fas fa-users-cog"></i> Manage Students</a></li>
+                                <li><a class="dropdown-item" href="/MVCLabTaskLayout/Admin/DisplayCourses"><i class="fas fa-chalkboard-teacher"></i> Manage Courses</a></li>
+                                <li><a class="dropdown-item" href="/MVCLabTaskLayout/Admin/DisplayAdmins"><i class="fas fa-user-tie"></i> Manage Admins</a></li>
+                                <li><a class="dropdown-item" href="/MVCLabTaskLayout/Admin/DisplayFaculties"><i class="fas fa-user-graduate"></i> Manage Faculties</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li><a class="dropdown-item text-danger" href="/MVCLabTaskLayout/Account/Logout"><i class="fas fa-sign-out-alt"></i> <b>Logout</b></a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    else
+                    {
+                        <li class="nav-item ms-2">
+                            <a id="adminButton" class="btn btn-sm" href="/MVCLabTaskLayout/Account/Login"><i class="fas fa-lock"></i> Admin Login</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="container mt-4">
+        @RenderBody()
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-center">
+        <div class="container">
+            <p><strong>Contact:</strong> contact@institute.com | <i class="fas fa-phone"></i> +123 456 7890</p>
+            <p>
+                <a href="#"><i class="fab fa-facebook-f me-2"></i></a>
+                <a href="#"><i class="fab fa-twitter me-2"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </p>
+            <p>© 2025 My Institute. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

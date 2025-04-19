@@ -1,0 +1,152 @@
+﻿@model MVCLabTaskLayout.Models.Faculty
+
+@{
+    ViewBag.Title = "Add Faculty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background: #0e0e0e;
+        color: #fff;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .zoom-wrapper {
+        animation: zoomIn 0.8s ease forwards;
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    @@keyframes zoomIn {
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .futuristic-form {
+        max-width: 600px;
+        margin: 60px auto;
+        background: rgba(25, 25, 25, 0.8);
+        padding: 30px 35px;
+        border-radius: 18px;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        border: 1px solid rgba(0, 255, 255, 0.15);
+    }
+
+    .futuristic-form h2 {
+        text-align: center;
+        color: #00f7ff;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+
+    label {
+        color: #0ff;
+        margin-bottom: 5px;
+        display: block;
+        font-weight: 500;
+    }
+
+    .form-control {
+        background-color: rgba(0, 0, 0, 0.4); /* semi-dark background for contrast */
+        border: 1px solid #00f7ff;
+        color: #ffffff; /* white text */
+        border-radius: 8px;
+        padding: 10px;
+        transition: 0.3s ease;
+        font-weight: 500;
+    }
+
+        .form-control::placeholder {
+            color: #aaaaaa;
+        }
+
+        .form-control:focus {
+            border-color: #0ff;
+            box-shadow: 0 0 10px #00f7ff;
+            background-color: rgba(0, 0, 0, 0.6); /* even darker on focus */
+            color: #ffffff;
+        }
+
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    .btn-future {
+        background-color: #00f7ff;
+        color: #000;
+        padding: 10px 30px;
+        border-radius: 30px;
+        font-weight: bold;
+        border: none;
+        width: 100%;
+        transition: 0.3s;
+        box-shadow: 0 0 10px #00f7ff;
+    }
+
+    .btn-future:hover {
+        background-color: #00e6e6;
+        box-shadow: 0 0 20px #00ffff;
+    }
+
+    .back-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: #0ff;
+        text-decoration: none;
+    }
+
+    .back-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="zoom-wrapper">
+    <div class="futuristic-form">
+        <h2>Add Faculty</h2>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Phone)
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Phone, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Experience)
+                @Html.TextBoxFor(m => m.Experience, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Experience, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.SubjectsTaught)
+                @Html.TextBoxFor(m => m.SubjectsTaught, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.SubjectsTaught, "", new { @class = "text-danger" })
+            </div>
+
+            <button type="submit" class="btn-future mt-3">Submit</button>
+        }
+
+        @Html.ActionLink("← Back to Faculty Details", "DisplayFaculties", null, new { @class = "back-link" })
+    </div>
+</div>

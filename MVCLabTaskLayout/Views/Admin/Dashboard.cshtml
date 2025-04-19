@@ -1,0 +1,176 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: linear-gradient(to top right, #ff7e5f, #feb47b, #6a11cb, #2575fc, #00bcd4);
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+
+    h2 {
+        text-align: center;
+        color: black;
+        font-size: 2.8rem;
+        margin-top: 40px;
+        font-weight: 700;
+        animation: fadeInDown 1s ease-out forwards;
+    }
+
+    .dashboard-container {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 50px;
+        background: rgba(255, 255, 255, 0.07);
+        border-radius: 25px;
+        box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(15px);
+        color: #fff;
+        animation: slideIn 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    dl dt {
+        color:black;
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0;
+        animation: fadeInLeft 1s ease-out forwards;
+        animation-delay: 0.5s;
+    }
+
+    dl dd {
+        margin: 15px 0 30px 0;
+        opacity: 0;
+        animation: fadeInRight 1s ease-out forwards;
+        animation-delay: 0.8s;
+    }
+
+    .dashboard-btn {
+        display: inline-block;
+        margin: 10px 15px 10px 0;
+        padding: 14px 30px;
+        font-size: 1rem;
+        font-weight: bold;
+        color: black;
+        border: none;
+        border-radius: 50px;
+        background-size: 200% auto;
+        text-decoration: none;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+        transform: scale(1);
+    }
+
+    .dashboard-btn:hover {
+        background-position: right center;
+        transform: scale(1.06);
+        box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
+    }
+
+    /* Unique Gradients */
+    .btn-student-1 { background: linear-gradient(to right, #1e3c72, #2a5298); }
+    .btn-student-2 { background: linear-gradient(to right, #00c9ff, #92fe9d); }
+    .btn-student-3 { background: linear-gradient(to right, #f7971e, #ffd200); }
+    .btn-student-4 { background: linear-gradient(to right, #ff416c, #ff4b2b); }
+
+    .btn-course-1 { background: linear-gradient(to right, #6a11cb, #2575fc); }
+    .btn-course-2 { background: linear-gradient(to right, #00b09b, #96c93d); }
+    .btn-course-3 { background: linear-gradient(to right, #e65c00, #f9d423); }
+    .btn-course-4 { background: linear-gradient(to right, #ff512f, #dd2476); }
+
+    .btn-admin-1 { background: linear-gradient(to right, #667eea, #764ba2); }
+    .btn-admin-2 { background: linear-gradient(to right, #56ab2f, #a8e063); }
+    .btn-admin-3 { background: linear-gradient(to right, #f7971e, #ffd200); }
+    .btn-admin-4 { background: linear-gradient(to right, #f953c6, #b91d73); }
+
+    .btn-faculty-1 { background: linear-gradient(to right, #1f4037, #99f2c8); }
+    .btn-faculty-2 { background: linear-gradient(to right, #7f00ff, #e100ff); }
+    .btn-faculty-3 { background: linear-gradient(to right, #fc466b, #3f5efb); }
+    .btn-faculty-4 { background: linear-gradient(to right, #c31432, #240b36); }
+
+    .btn-logout {
+        background: linear-gradient(to right, #ff416c, #ff4b2b);
+    }
+
+    /* Icons */
+    dt i {
+        font-size: 1.5rem;
+        color: #00f2ff;
+    }
+
+    /* Super Smooth Keyframes */
+    @@keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-40px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @@keyframes fadeInLeft {
+        from { opacity: 0; transform: translateX(-50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @@keyframes fadeInRight {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    @@keyframes slideIn {
+        from { opacity: 0; transform: translateY(80px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
+
+<h2>Welcome, @Session["AdminName"] 👋</h2>
+
+<div class="dashboard-container">
+    <dl>
+        <dt><i class="fas fa-user-graduate"></i> Manage Students</dt>
+        <dd>
+            <a href="/MVCLabTaskLayout/Admin/DisplayStudents" class="dashboard-btn btn-student-1">Student Details</a>
+            <a href="/MVCLabTaskLayout/Admissions/Apply" class="dashboard-btn btn-student-2">Add Student</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayStudents" class="dashboard-btn btn-student-3">Edit Student</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayStudents" class="dashboard-btn btn-student-4">Delete Students</a>
+        </dd>
+
+        <dt><i class="fas fa-book-open"></i> Manage Courses</dt>
+        <dd>
+            <a href="/MVCLabTaskLayout/Admin/DisplayCourses" class="dashboard-btn btn-course-1">Course Details</a>
+            <a href="/MVCLabTaskLayout/Admin/AddCourse" class="dashboard-btn btn-course-2">Add Course</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayCourses" class="dashboard-btn btn-course-3">Edit Course</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayCourses" class="dashboard-btn btn-course-4">Delete Course</a>
+        </dd>
+
+        <dt><i class="fas fa-user-shield"></i> Manage Admins</dt>
+        <dd>
+            <a href="/MVCLabTaskLayout/Admin/DisplayAdmins" class="dashboard-btn btn-admin-1">Admin Details</a>
+            <a href="/MVCLabTaskLayout/Account/RegisterAdmin" class="dashboard-btn btn-admin-2">Add Admin</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayAdmins" class="dashboard-btn btn-admin-3">Edit Admin</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayAdmins" class="dashboard-btn btn-admin-4">Delete Admin</a>
+        </dd>
+
+        <dt><i class="fas fa-chalkboard-teacher"></i> Manage Faculties</dt>
+        <dd>
+            <a href="/MVCLabTaskLayout/Admin/DisplayFaculties" class="dashboard-btn btn-faculty-1">Faculty Details</a>
+            <a href="/MVCLabTaskLayout/Admin/AddFaculty" class="dashboard-btn btn-faculty-2">Add Faculty</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayFaculties" class="dashboard-btn btn-faculty-3">Edit Faculty</a>
+            <a href="/MVCLabTaskLayout/Admin/DisplayFaculties" class="dashboard-btn btn-faculty-4">Delete Faculty</a>
+        </dd>
+
+        <dt><i class="fas fa-sign-out-alt"></i> Logout</dt>
+        <dd>
+            <a href="/MVCLabTaskLayout/Account/Logout" class="dashboard-btn btn-logout">Logout</a>
+        </dd>
+    </dl>
+</div>

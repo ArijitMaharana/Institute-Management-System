@@ -1,0 +1,210 @@
+﻿@model MVCLabTaskLayout.Models.RegisterAdmin
+
+@{
+    ViewBag.Title = "EditAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Font Awesome for icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+        font-family: 'Segoe UI', sans-serif;
+        color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #fff;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    }
+
+    .form-horizontal {
+        max-width: 500px;
+        margin: 40px auto;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.7);
+        border-radius: 10px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(10px);
+        transition: all 0.5s ease;
+    }
+
+    .form-horizontal:hover {
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
+        transform: translateY(-5px);
+    }
+
+    .form-horizontal h4 {
+        font-size: 1.6rem;
+        color: #ecf0f1;
+        text-align: center;
+        margin-bottom: 30px;
+        font-weight: 600;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group .control-label {
+        font-size: 1.2rem;
+        color: #ecf0f1;
+        margin-bottom: 10px;
+    }
+
+    .form-group .form-control {
+        padding: 12px;
+        font-size: 1rem;
+        background-color: #34495e;
+        border: 2px solid #2c3e50;
+        color: #fff;
+        border-radius: 8px;
+        width: 100%;
+        transition: all 0.3s ease;
+    }
+
+    .form-group .form-control:focus {
+        background-color: #1abc9c;
+        border-color: #16a085;
+        box-shadow: 0 0 8px rgba(26, 188, 156, 0.5);
+    }
+
+    .form-group input[type="submit"] {
+        width: 100%;
+        padding: 15px;
+        font-size: 1.2rem;
+        background: linear-gradient(145deg, #1abc9c, #16a085);
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .form-group input[type="submit"]:hover {
+        background: linear-gradient(145deg, #16a085, #1abc9c);
+        transform: translateY(-5px);
+    }
+
+    .form-group .text-danger {
+        color: #e74c3c;
+        font-size: 0.9rem;
+    }
+
+    .checkbox {
+        padding: 10px;
+        background-color: #34495e;
+        border-radius: 8px;
+    }
+
+    .checkbox input[type="checkbox"]:checked {
+        background-color: #1abc9c;
+    }
+
+    .checkbox input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        font-size: 1.1rem;
+        text-decoration: none;
+        color: #ecf0f1;
+        padding: 12px 25px;
+        background: linear-gradient(145deg, #3498db, #2980b9);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .back-link:hover {
+        background: linear-gradient(145deg, #2980b9, #3498db);
+        transform: scale(1.05);
+    }
+
+    /* Animations */
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-horizontal {
+        animation: fadeIn 1s ease-in-out;
+    }
+</style>
+
+<h2>Edit Admin</h2>
+
+@using (Html.BeginForm("UpdateAdmin", "Admin", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Update Admin Information</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserId, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" , @readonly=true} })
+            @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mobile, htmlAttributes: new { @class = "control-label" })
+            @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label" })
+            <div class="checkbox">
+                @Html.EditorFor(model => model.Status)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input style="width:450px" type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    <a href="@Url.Action("DisplayAdmins", "Admin")" class="back-link">Back to Admin Details</a>
+</div>

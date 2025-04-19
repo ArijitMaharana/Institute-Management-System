@@ -1,0 +1,207 @@
+﻿@model MVCLabTaskLayout.Models.Student
+
+@{
+    ViewBag.Title = "Student Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- External Libraries -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init({ duration: 900 });
+</script>
+
+<style>
+    /* Animated Gradient Background */
+    body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(-45deg, #1e3c72, #2a5298, #1e3c72, #0f2027);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        font-family: 'Segoe UI', sans-serif;
+        color: #fff;
+    }
+
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .student-details-section {
+        padding: 50px 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .student-card {
+        background: rgba(0, 0, 0, 0.75);
+        padding: 30px;
+        border-radius: 18px;
+        width: 420px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        border: 1px solid #3e4c66;
+        backdrop-filter: blur(6px);
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        overflow-x: auto;
+    }
+
+        .student-card:hover {
+            transform: scale(1.025);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        }
+
+        .student-card h2 {
+            text-align: center;
+            color: chartreuse;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .student-card p {
+            margin: 8px 0;
+            font-size: 15px;
+            border-bottom: 1px dashed #444;
+            padding-bottom: 6px;
+        }
+
+        .student-card strong {
+            color: #ffc107;
+        }
+
+    /* Fee Status Highlight Badge */
+    .fee-status {
+        text-align: center;
+        margin-top: 22px;
+    }
+
+        .fee-status span {
+            display: inline-block;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff416c, #ff4b2b);
+            color: white;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 75, 43, 0.6);
+            text-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+            animation: pulse 2s infinite;
+        }
+
+    @@keyframes pulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 15px rgba(255, 75, 43, 0.6);
+        }
+
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(255, 75, 43, 0.8);
+        }
+
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 15px rgba(255, 75, 43, 0.6);
+        }
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+        flex-wrap: nowrap; /* Prevent wrapping */
+    }
+
+        .actions a {
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            min-width: 110px;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+    .btn-edit {
+        background: linear-gradient(135deg, #fbd786, #f7797d);
+        color: #000;
+    }
+
+    .btn-view {
+        background: linear-gradient(135deg, #56ccf2, #2f80ed);
+        color: white;
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #f85032, #e73827);
+        color: white;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #1fd1f9, #b621fe);
+        color: white;
+    }
+
+    .actions a:hover {
+        transform: scale(1.05);
+        filter: brightness(1.1);
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    .actions i {
+        font-size: 15px;
+    }
+</style>
+
+<div class="student-details-section" data-aos="fade-up">
+    <div class="student-card" data-aos="zoom-in">
+        <h2><i class="fas fa-user-graduate"></i> @Model.Name </h2>
+
+        <p><strong>Name:</strong> @Model.Name</p>
+        <p><strong>Student Id:</strong> @Model.StudentId</p>
+        <p><strong>Email:</strong> @Model.EmailAddress</p>
+        <p><strong>Mobile:</strong> @Model.Mobile</p>
+        <p><strong>Gender:</strong> @Model.Gender</p>
+        <p><strong>Registered On:</strong> @Model.DateOfRegistration.ToShortDateString()</p>
+        <p><strong>Course ID:</strong> @Model.Course.CourseId</p>
+        <p><strong>Course Name:</strong> @Model.Course.Name</p>
+        <p><strong>Course Fees:</strong> ₹@Model.Course.Fees</p>
+        <p><strong>Duration:</strong> @Model.Course.Duration</p>
+        <p><strong>Address:</strong> @Model.Address</p>
+
+        <div class="fee-status">
+            <span><i class="fas fa-money-check-alt"></i> Fee Status: @Model.FeeStatus</span>
+        </div>
+
+        <div class="actions">
+            <a class="btn-edit" href="@Url.Action("EditStudent", new { id = Model.StudentId })">
+                <i class="fas fa-pen"></i> Edit
+            </a>
+            <a class="btn-delete" href="@Url.Action("DeleteStudent", new { id = Model.StudentId })" onclick="return confirm('Are you sure you want to delete this student?');">
+                <i class="fas fa-trash"></i> Delete
+            </a>
+            <a class="btn-primary" href="@Url.Action("DisplayStudents")">
+                <i class="fas fa-arrow-left"></i> Go Back
+            </a>
+        </div>
+    </div>
+</div>

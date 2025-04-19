@@ -1,0 +1,195 @@
+﻿@model MVCLabTaskLayout.Models.Student
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Bootstrap + FontAwesome + AOS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<style>
+    body {
+        transition: background 0.6s ease-in-out;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .form-wrapper {
+        max-width: 600px;
+        margin: 60px auto;
+        background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 1s ease-in-out;
+    }
+
+        .form-wrapper h4 {
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.9rem;
+            background: linear-gradient(to right, #7b2ff7, #f107a3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+        }
+
+    .form-control:focus {
+        border-color: #7b2ff7;
+        box-shadow: 0 0 0 0.2rem rgba(123, 47, 247, 0.25);
+    }
+
+    .btn-primary {
+        background-color: #6a11cb;
+        border: none;
+    }
+
+    .btn-danger {
+        background-color: #ff416c;
+        border: none;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #6a11cb;
+        transition: color 0.3s ease-in-out;
+    }
+
+        .form-group label:hover {
+            color: lime;
+        }
+
+    select.form-control {
+        background-color: #f3f3ff;
+        border: 2px solid #6a11cb;
+        border-radius: 8px;
+        padding: 10px;
+        transition: all 0.3s ease-in-out;
+        color: #333;
+    }
+
+        select.form-control:focus {
+            border-color: #f107a3;
+            box-shadow: 0 0 0 0.25rem rgba(241, 7, 163, 0.25);
+        }
+
+    .alert {
+        max-width: 600px;
+        margin: 20px auto;
+    }
+
+    @@keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="form-wrapper" data-aos="zoom-in">
+    @using (Html.BeginForm("UpdateStudent", "Admin"))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.StudentId)
+        <h4><i class="fas fa-user-edit"></i> Edit Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.LabelFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", placeholder = "Enter full name" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.LabelFor(model => model.EmailAddress)
+            @Html.TextBoxFor(model => model.EmailAddress, new { @class = "form-control", placeholder = "Enter email" })
+            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.LabelFor(model => model.Mobile)
+            @Html.TextBoxFor(model => model.Mobile, new { @class = "form-control", placeholder = "Enter mobile number" })
+            @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.Label("Course Name")
+            @Html.DropDownList("CourseId", null, "- Select Course -", new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CourseId, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.LabelFor(model => model.Gender)
+            <div>
+                <label class="me-3">@Html.RadioButtonFor(model => model.Gender, "Male") Male</label>
+                <label class="me-3">@Html.RadioButtonFor(model => model.Gender, "Female") Female</label>
+                <label>@Html.RadioButtonFor(model => model.Gender, "Other") Other</label>
+            </div>
+            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+        </div>
+
+        <!-- ✅ Fee Status Dropdown -->
+        <div class="form-group mb-3" data-aos="fade-up">
+            @Html.LabelFor(model => model.FeeStatus)
+            @Html.DropDownListFor(model => model.FeeStatus,
+                new SelectList(new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Paid", Value = "Paid" },
+                    new SelectListItem { Text = "Unpaid", Value = "Unpaid" },
+                }, "Value", "Text", Model.FeeStatus),
+                "- Select Fee Status -",
+                new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FeeStatus, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mb-4" data-aos="fade-up">
+            @Html.LabelFor(model => model.Address)
+            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", rows = 3, placeholder = "Enter your address" })
+            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="text-center" data-aos="fade-up">
+            <input type="submit" value="Update" class="btn btn-primary me-2" />
+            <a href="@Url.Action("DisplayStudents", "Admin")" class="btn btn-danger">Cancel</a>
+        </div>
+    }
+</div>
+
+<!-- AOS Animation Init -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+
+<!-- 🎨 Random Background -->
+<script>
+    const bgThemes = [
+        "linear-gradient(to right, #e0c3fc, #8ec5fc)",
+        "linear-gradient(to right, #ffecd2, #fcb69f)",
+        "linear-gradient(to right, #cfd9df, #e2ebf0)",
+        "linear-gradient(to right, #d299c2, #fef9d7)",
+        "linear-gradient(to right, #f6d365, #fda085)",
+        "linear-gradient(to right, #fdfbfb, #ebedee)"
+    ];
+    document.body.style.background = bgThemes[Math.floor(Math.random() * bgThemes.length)];
+</script>
+
+<!-- jQuery Validation -->
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

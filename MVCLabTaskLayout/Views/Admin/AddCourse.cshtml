@@ -1,0 +1,259 @@
+﻿@model MVCLabTaskLayout.Models.Course
+
+@{
+    ViewBag.Title = "AddCourse";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-wrapper">
+        <div class="form-header">
+            <h4>Add a New Course</h4>
+        </div>
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger validation-summary" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "label" })
+            <div class="input-wrapper">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "input-field" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fees, htmlAttributes: new { @class = "label" })
+            <div class="input-wrapper">
+                @Html.EditorFor(model => model.Fees, new { htmlAttributes = new { @class = "input-field", type = "number", step = "any" } })
+                @Html.ValidationMessageFor(model => model.Fees, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Duration, htmlAttributes: new { @class = "label" })
+            <div class="input-wrapper">
+                @Html.EditorFor(model => model.Duration, new { htmlAttributes = new { @class = "input-field" } })
+                @Html.ValidationMessageFor(model => model.Duration, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-footer">
+            <input type="submit" value="Submit" class="submit-btn" />
+            <input type="reset" value="Reset" class="reset-btn" />
+        </div>
+
+        <div class="go-back-btn">
+            @Html.ActionLink("Go Back", "DisplayCourses", null, new { @class = "go-back" })
+        </div>
+    </div>
+}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #667eea, #764ba2, #ff6a00, #764ba2);
+        background-size: 400% 400%;
+        font-family: 'Roboto', sans-serif;
+        color: #fff;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow-x: hidden;
+        animation: gradientBG 18s ease infinite;
+    }
+
+    .page-title {
+        text-align: center;
+        font-size: 3rem;
+        color: #fff;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.6);
+        opacity: 0;
+        animation: fadeInDown 1s ease-out 0.2s forwards;
+    }
+
+    .form-wrapper {
+        max-width: 500px; /* Reduced size */
+        margin: 30px auto;
+        padding: 35px;
+        background: rgba(30, 30, 40, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        transform: scale(0.8); /* Start smaller */
+        opacity: 0;
+        animation: zoomIn 0.8s ease-out forwards; /* Apply zoom-in effect */
+    }
+
+    .form-header h4 {
+        text-align: center;
+        font-size: 1.9rem;
+        color: #f0f0f0;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        font-weight: 600;
+        opacity: 0;
+        animation: fadeIn 1s ease-out 0.5s forwards;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: slideUpFadeIn 0.6s ease-out forwards;
+    }
+
+    .form-group:nth-child(2) {
+        animation-delay: 0.7s;
+    }
+
+    .form-group:nth-child(3) {
+        animation-delay: 0.8s;
+    }
+
+    .label {
+        display: block;
+        font-size: 1rem;
+        color: #bbb;
+        margin-bottom: 8px;
+        font-weight: 500;
+    }
+
+    .input-wrapper {
+        position: relative;
+    }
+
+    .input-field {
+        width: 100%;
+        padding: 16px;
+        font-size: 1.1rem;
+        border: 1px solid #555;
+        border-radius: 8px;
+        background: #2c2f36;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .input-field:focus {
+        border-color: #00aeff;
+        outline: none;
+        background: #31353f;
+        box-shadow: 0 0 15px rgba(0, 174, 255, 0.6), inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: scale(1.01);
+    }
+
+    .form-footer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 35px;
+        opacity: 0;
+        animation: slideUpFadeIn 0.6s ease-out 1.1s forwards;
+    }
+
+    .submit-btn,
+    .reset-btn {
+        padding: 14px 35px;
+        background: linear-gradient(to right, #00c6ff, #0072ff);
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.4s ease;
+    }
+
+    .submit-btn:hover,
+    .reset-btn:hover {
+        background: linear-gradient(to right, #0072ff, #00c6ff);
+        transform: translateY(-3px) scale(1.03);
+    }
+
+    .reset-btn {
+        background: linear-gradient(to right, #888, #555);
+    }
+
+    .go-back-btn {
+        text-align: center;
+        margin-top: 25px;
+        opacity: 0;
+        animation: slideUpFadeIn 0.6s ease-out 1.2s forwards;
+    }
+
+    .go-back {
+        font-size: 1rem;
+        color: #00d4ff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.4s ease;
+        text-transform: uppercase;
+    }
+
+    .go-back:hover {
+        color: #ffffff;
+    }
+
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @@keyframes slideUpFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Zoom-in effect */
+    @@keyframes zoomIn {
+        from {
+            transform: scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+</style>

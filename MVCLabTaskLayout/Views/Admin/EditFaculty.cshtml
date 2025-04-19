@@ -1,0 +1,139 @@
+﻿@model MVCLabTaskLayout.Models.Faculty
+
+@{
+    ViewBag.Title = "Edit Faculty";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Gradient animated background -->
+<style>
+    body {
+        background: linear-gradient(270deg, #74ebd5, #ACB6E5, #ffecd2);
+        background-size: 600% 600%;
+        animation: gradientShift 12s ease infinite;
+    }
+
+    @@keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    .edit-container {
+        max-width: 700px;
+        margin: 50px auto;
+        background-color: rgba(255, 255, 255, 0.95);
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        animation: fadeInUp 1s ease-out;
+    }
+
+    h2 {
+        text-align: center;
+        font-weight: bold;
+        margin-bottom: 30px;
+        color: #333;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #444;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .btn-save {
+        background: #6a11cb;
+        background: linear-gradient(to right, #2575fc, #6a11cb);
+        border: none;
+        color: white;
+        padding: 12px 30px;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(106, 17, 203, 0.3);
+    }
+
+    .back-link {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+        font-weight: bold;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #2575fc;
+    }
+</style>
+
+<!-- Add fade-up animation using AOS -->
+<div class="edit-container" data-aos="fade-up">
+    @using (Html.BeginForm("UpdateFaculty", "Admin", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <h2><i class="fas fa-user-edit"></i> Edit Faculty</h2>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.FacultyId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, "👤 Name")
+            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, "📧 Email")
+            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, "📞 Phone")
+            @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Experience, "🧠 Experience (Years)")
+            @Html.EditorFor(model => model.Experience, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Experience, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SubjectsTaught, "📚 Subjects Taught")
+            @Html.EditorFor(model => model.SubjectsTaught, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.SubjectsTaught, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group text-center mt-4">
+            <input type="submit" value="Save Changes" class="btn btn-save" />
+        </div>
+    }
+    <a href="/MVCLabTaskLayout/Admin/DisplayFaculties" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Faculty Details
+    </a>
+</div>
+
+<!-- Add these in _Layout.cshtml head if not already included -->
+<!-- Font Awesome -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+<!-- AOS Animate on Scroll -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init();
+</script>

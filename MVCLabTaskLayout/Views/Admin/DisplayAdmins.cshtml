@@ -1,0 +1,773 @@
+﻿@model IEnumerable<MVCLabTaskLayout.Models.RegisterAdmin>
+@using MVCLabTaskLayout.Models
+
+@{
+    ViewBag.Title = "ADMIN // OS v7. holographic interface"; // Ultra-futuristic title
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+    :root {
+        --glow-color-cyan: #0ff; /* Pure Cyan */
+        --glow-color-magenta: #f0f; /* Pure Magenta */
+        --glow-color-lime: #3f3; /* Pure Lime */
+        --glow-color-blue: #3af; /* Bright Blue */
+        --dark-bg-primary: #050508; /* Near Black */
+        --dark-bg-secondary: #0d0d15;
+        --container-bg: rgba(18, 18, 30, 0.85);
+        --grid-color: rgba(0, 255, 255, 0.06);
+        --scanline-color: rgba(0, 255, 255, 0.05);
+        --border-color: rgba(0, 255, 255, 0.3);
+        --corner-glow-color: rgba(0, 255, 255, 0.7);
+    }
+
+    body {
+        background: radial-gradient(ellipse at bottom, var(--dark-bg-secondary) 0%, var(--dark-bg-primary) 100%);
+        font-family: 'Orbitron', sans-serif;
+        color: #c0c0c0; /* Silver-ish */
+        opacity: 0;
+        animation: bodyFadeIn 1.2s 0.1s ease forwards; /* Slight delay */
+        overflow-x: hidden;
+        perspective: 1500px; /* Enable 3D perspective for child elements */
+    }
+
+    @@keyframes bodyFadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    /* --- Container & Decorations --- */
+    .admin-container {
+        position: relative;
+        margin: 80px auto;
+        padding: 55px;
+        border: 1px solid var(--border-color);
+        border-radius: 6px;
+        max-width: 97%;
+        backdrop-filter: blur(15px) saturate(120%); /* Enhance blur/color */
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.6);
+        clip-path: polygon(25px 0%, calc(100% - 25px) 0%, 100% 25px, 100% calc(100% - 25px), calc(100% - 25px) 100%, 25px 100%, 0% calc(100% - 25px), 0% 25px);
+        overflow: hidden; /* Still need clip */
+        /* Animated Grid BG */
+        background-color: var(--container-bg);
+        background-image: repeating-linear-gradient(0deg, var(--grid-color), var(--grid-color) 1px, transparent 1px, transparent 35px), repeating-linear-gradient(90deg, var(--grid-color), var(--grid-color) 1px, transparent 1px, transparent 35px);
+        background-size: 35px 35px;
+        /* 3D Entrance Animation */
+        opacity: 0; /* Start hidden */
+        transform: scale(0.7) rotateY(45deg) rotateX(10deg); /* Initial 3D state */
+        transform-origin: center center;
+        animation: containerEntrance 1.5s cubic-bezier(0.19, 1, 0.22, 1) 0.3s forwards, /* Delayed start */
+        animatedGrid 12s linear infinite 1.8s; /* Grid starts after entrance */
+    }
+
+    @@keyframes containerEntrance {
+        to {
+            opacity: 1;
+            transform: scale(1) rotateY(0deg) rotateX(0deg);
+        }
+    }
+
+    @@keyframes animatedGrid {
+        from {
+            background-position: 0 0;
+        }
+
+        to {
+            background-position: 70px 70px;
+        }
+    }
+
+    /* Scan Line */
+    .admin-container::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to bottom, transparent 0%, var(--scanline-color) 50%, transparent 100%);
+        opacity: 0.9;
+        z-index: 1;
+        animation: scanLine 7s linear infinite 1.8s;
+        top: 0%;
+        pointer-events: none;
+    }
+
+    @@keyframes scanLine {
+        0% {
+            top: -5%;
+        }
+
+        50% {
+            top: 105%;
+        }
+
+        100% {
+            top: -5%;
+        }
+    }
+    /* Start/end off-screen */
+
+    /* Border Glow */
+    .admin-container::before { /* Kept simple pulse */
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(70deg, var(--glow-color-cyan), var(--glow-color-magenta), var(--glow-color-lime));
+        border-radius: 8px;
+        z-index: -2;
+        filter: blur(18px);
+        opacity: 0.4;
+        animation: pulseBorderOpacity 6s infinite alternate ease-in-out 1.8s;
+    }
+
+    @@keyframes pulseBorderOpacity {
+        from {
+            opacity: 0.3;
+            filter: blur(25px);
+        }
+
+        to {
+            opacity: 0.6;
+            filter: blur(15px);
+        }
+    }
+
+    /* Decorative Corner Brackets */
+    .corner-decorator {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--corner-glow-color);
+        opacity: 0;
+        animation: fadeInCorner 1s ease-out 1.8s forwards; /* Appear after container */
+        box-shadow: 0 0 5px var(--corner-glow-color);
+    }
+
+    @@keyframes fadeInCorner {
+        to {
+            opacity: 0.8;
+        }
+    }
+
+    .corner-decorator.top-left {
+        top: 5px;
+        left: 5px;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .corner-decorator.top-right {
+        top: 5px;
+        right: 5px;
+        border-left: none;
+        border-bottom: none;
+    }
+
+    .corner-decorator.bottom-left {
+        bottom: 5px;
+        left: 5px;
+        border-right: none;
+        border-top: none;
+    }
+
+    .corner-decorator.bottom-right {
+        bottom: 5px;
+        right: 5px;
+        border-left: none;
+        border-top: none;
+    }
+
+
+    /* --- Heading --- */
+    .admin-heading-wrapper { /* Needed for reveal overflow */
+        overflow: hidden;
+        position: relative; /* For pseudo element */
+        margin-bottom: 55px;
+    }
+
+    .admin-heading {
+        font-size: 3rem;
+        color: #fff;
+        font-weight: 900;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-shadow: 0 0 12px var(--glow-color-cyan), 0 0 25px var(--glow-color-cyan), 0 0 40px var(--glow-color-blue);
+        padding-bottom: 5px; /* Space for potential underglow */
+        opacity: 0; /* Start hidden for animation */
+        animation: revealText 1.5s cubic-bezier(0.61, 1, 0.88, 1) 1.8s forwards, pulseHeadingGlow 5s infinite alternate ease-in-out 3s;
+        text-align: center; /* Center within wrapper */
+        position: relative; /* Ensure it's above potential pseudo */
+        white-space: nowrap; /* Prevent wrapping during reveal */
+    }
+
+    @@keyframes revealText {
+        from {
+            clip-path: inset(0 100% 0 0); /* Reveal from left */
+            opacity: 1; /* Become visible immediately */
+        }
+
+        to {
+            clip-path: inset(0 0 0 0);
+            opacity: 1;
+        }
+    }
+
+    @@keyframes pulseHeadingGlow { /* Kept similar */
+        from {
+            text-shadow: 0 0 12px var(--glow-color-cyan), 0 0 25px var(--glow-color-cyan), 0 0 40px var(--glow-color-blue);
+        }
+
+        to {
+            text-shadow: 0 0 18px var(--glow-color-cyan), 0 0 35px var(--glow-color-cyan), 0 0 55px var(--glow-color-blue), 0 0 15px var(--glow-color-lime);
+        }
+    }
+
+    /* --- Table & Cells --- */
+    .table-responsive-wrapper {
+        overflow-x: auto;
+        perspective: 1200px; /* Enable 3D for table cells */
+        margin-top: 20px; /* Space below heading */
+        /* Custom Scrollbar Styling (Webkit) - adjusted */
+        &::-webkit-scrollbar
+
+    {
+        height: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.3);
+        border-radius: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--glow-color-lime);
+        border-radius: 5px;
+        box-shadow: 0 0 8px var(--glow-color-lime);
+    }
+
+    }
+
+    .admin-table {
+        width: 100%;
+        min-width: 750px;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 4px;
+        overflow: visible; /* Allow cell transforms */
+        background: transparent; /* Let container grid show through */
+        border: none; /* Remove table border, rely on cells */
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Lift table */
+    }
+
+        .admin-table th, .admin-table td {
+            padding: 18px 20px;
+            text-align: center;
+            vertical-align: middle;
+            color: #bdbdbd;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15); /* Cyan line */
+            background-color: rgba(10, 10, 18, 0.85); /* Cell background */
+            transition: color 0.3s ease, background-color 0.3s ease, opacity 0.4s ease, transform 0.4s ease;
+            position: relative;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5); /* Subtle text shadow */
+        }
+
+            .admin-table th:first-child, .admin-table td:first-child {
+                border-left: 1px solid rgba(0, 255, 255, 0.1);
+            }
+
+            .admin-table th:last-child, .admin-table td:last-child {
+                border-right: 1px solid rgba(0, 255, 255, 0.1);
+            }
+
+        .admin-table thead tr:first-child th {
+            border-top: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+            .admin-table thead tr:first-child th:first-child {
+                border-top-left-radius: 4px;
+            }
+
+            .admin-table thead tr:first-child th:last-child {
+                border-top-right-radius: 4px;
+            }
+
+        .admin-table tbody tr:last-child td:first-child {
+            border-bottom-left-radius: 4px;
+        }
+
+        .admin-table tbody tr:last-child td:last-child {
+            border-bottom-right-radius: 4px;
+        }
+
+        .admin-table tbody tr:last-child td {
+            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+        }
+        /* Keep bottom border */
+
+
+        /* Holographic Header */
+        .admin-table th {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            background-color: transparent; /* Base transparent */
+            background-image: conic-gradient(from calc(var(--angle) * 1deg), rgba(0,255,255,0.1), rgba(255,0,255,0.15), rgba(50,255,50,0.1), rgba(0,255,255,0.1));
+            animation: spinAngle 8s linear infinite, headerFadeIn 1s ease-out forwards;
+            animation-delay: calc(var(--th-index) * 0.07s + 2.5s); /* Delayed header fade */
+            --angle: 0; /* CSS variable for gradient angle */
+            transition: background-color 0.3s ease, transform 0.3s ease, --angle 0.5s ease;
+            opacity: 0;
+            transform: translateY(-15px);
+        }
+
+    @@property --angle {
+        syntax: '<angle>';
+        inherits: false;
+        initial-value: 0deg;
+    }
+    /* Define custom property for animation */
+    @@keyframes spinAngle {
+        to {
+            --angle: 360;
+        }
+    }
+
+    @@keyframes headerFadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    /* --- 3D Cell Flip-In Animation --- */
+    .admin-table tbody tr td {
+        opacity: 0;
+        transform-origin: center center; /* Rotate around center */
+        transform: rotateX(-90deg) rotateY(30deg) translateZ(-50px); /* Start flipped and angled */
+        animation: cell3DFlipIn 0.7s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+        animation-delay: calc(var(--i) * 0.1s + var(--j) * 0.05s + 2.8s); /* Delayed start */
+        backface-visibility: hidden; /* Hide back during flip */
+    }
+
+    @@keyframes cell3DFlipIn {
+        to {
+            opacity: 1;
+            transform: rotateX(0deg) rotateY(0deg) translateZ(0px);
+        }
+    }
+
+    /* --- Row Hover Focus Effect --- */
+    .admin-table tbody:hover tr {
+        transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+        .admin-table tbody:hover tr:not(:hover) {
+            opacity: 0.3;
+            transform: scale(0.97);
+            filter: blur(1.5px);
+        }
+
+    .admin-table tbody tr:hover {
+        transform: translateY(-5px) translateZ(10px); /* Lift and bring forward */
+        box-shadow: 0 5px 15px var(--glow-color-cyan); /* Shadow below */
+        z-index: 10;
+        position: relative;
+    }
+
+        .admin-table tbody tr:hover td {
+            color: #fff;
+            background-color: rgba(0, 255, 255, 0.1); /* Highlight cell background */
+            filter: brightness(1.2);
+        }
+
+
+    /* --- Action Buttons --- */
+    .admin-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+        .admin-actions a {
+            padding: 9px 18px;
+            font-size: 0.8rem;
+            border-radius: 3px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #000;
+            border: 1px solid transparent;
+            transition: all 0.15s ease-out; /* Faster */
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            letter-spacing: 0.5px;
+        }
+
+            .admin-actions a i {
+                margin-right: 7px;
+                font-size: 0.9rem;
+                transition: transform 0.2s ease-out;
+            }
+
+    /* Button Backgrounds */
+    .edit-btn {
+        background: linear-gradient(135deg, var(--glow-color-lime), #6bff9a);
+        border-color: rgba(57, 255, 20, 0.5);
+    }
+
+    .view-btn {
+        background: linear-gradient(135deg, var(--glow-color-cyan), #6bdbff);
+        border-color: rgba(0, 191, 255, 0.5);
+    }
+
+    .delete-btn {
+        background: linear-gradient(135deg, var(--glow-color-magenta), #ff6b81);
+        border-color: rgba(255, 0, 255, 0.5);
+    }
+
+    /* Shine Effect */
+    .admin-actions a::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -110%;
+        width: 60%;
+        height: 100%;
+        background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.6));
+        transform: skewX(-30deg);
+        transition: left 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        z-index: -1;
+    }
+
+    .admin-actions a:hover {
+        transform: translateY(-3px) scale(1.08);
+        box-shadow: 0 0 18px rgba(255,255,255,0.6), 0 0 10px rgba(0,0,0,0.5);
+        filter: brightness(1.3);
+        border-color: rgba(255, 255, 255, 0.8);
+        color: #000;
+    }
+
+        .admin-actions a:hover::before {
+            left: 130%;
+        }
+
+        .admin-actions a:hover i {
+            transform: scale(1.2) rotate(-8deg);
+        }
+
+    /* Active State */
+    .admin-actions a:active {
+        transform: translateY(0px) scale(1.02); /* Push down */
+        filter: brightness(1.1);
+        box-shadow: inset 0 0 10px rgba(0,0,0,0.3), 0 0 5px rgba(255,255,255,0.4);
+    }
+
+    /* --- Add Admin Button --- */
+    .add-admin-btn-wrapper {
+        text-align: center;
+        margin-top: 60px;
+        perspective: 800px; /* For 3D hover */
+    }
+
+    .add-admin-btn {
+        display: inline-block;
+        padding: 18px 50px;
+        font-size: 1.1rem;
+        font-weight: 900;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Added bounce */
+        background: linear-gradient(135deg, var(--glow-color-cyan), var(--glow-color-magenta), var(--glow-color-lime));
+        background-size: 200% 200%;
+        color: #fff;
+        text-shadow: 0 0 8px rgba(0,0,0,0.6);
+        box-shadow: 0 0 18px rgba(0, 255, 255, 0.6), 0 0 18px rgba(255, 0, 255, 0.6), 0 0 18px rgba(57, 255, 20, 0.6);
+        border: 1px solid rgba(255,255,255,0.3);
+        cursor: pointer;
+        letter-spacing: 1.5px;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+        transform-style: preserve-3d; /* Enable 3D */
+    }
+
+        .add-admin-btn i {
+            margin-right: 15px;
+            font-size: 1.1rem;
+        }
+
+        .add-admin-btn::before { /* Shine */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -110%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.5));
+            transform: skewX(-30deg);
+            transition: left 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: -1;
+        }
+
+        .add-admin-btn:hover {
+            transform: translateY(-6px) scale(1.06) rotateX(10deg) rotateY(-5deg); /* 3D Hover */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4), 0 0 30px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.8), 0 0 30px rgba(57, 255, 20, 0.8);
+            filter: brightness(1.25);
+            border-color: rgba(255,255,255,0.6);
+            background-position: right center; /* Gradient shift */
+        }
+
+            .add-admin-btn:hover::before {
+                left: 140%;
+            }
+
+        .add-admin-btn:active {
+            transform: translateY(0px) scale(1) rotateX(0deg) rotateY(0deg);
+        }
+    /* Reset on click */
+
+
+    /* --- Responsiveness --- */
+    /* Reduce complexity significantly on smaller screens */
+    @@media (max-width: 992px) {
+        body {
+            perspective: none;
+        }
+        /* Disable 3D on smaller screens */
+        .admin-container {
+            padding: 40px;
+            margin: 60px auto;
+            animation: fadeSlideInSimple 1s ease-out forwards;
+            background-image: none;
+            clip-path: polygon(15px 0%, calc(100% - 15px) 0%, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0% calc(100% - 15px), 0% 15px);
+        }
+
+            .admin-container::after, .admin-container::before, .corner-decorator {
+                display: none;
+            }
+        /* Remove extras */
+        @@keyframes fadeSlideInSimple {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-heading {
+            animation: fadeInTextSimple 1s ease-out 0.2s forwards;
+        }
+
+        @@keyframes fadeInTextSimple {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .table-responsive-wrapper {
+            perspective: none;
+        }
+
+        .admin-table th {
+            animation: headerFadeIn 0.8s ease-out forwards;
+            animation-delay: calc(var(--th-index) * 0.06s + 0.5s);
+            background-image: none;
+            background-color: rgba(25, 25, 45, 0.9);
+        }
+        /* Simpler header */
+        .admin-table tbody tr td {
+            animation: cellFadeInSimple 0.5s ease-out forwards;
+            animation-delay: calc(var(--i) * 0.1s + var(--j) * 0.05s + 0.8s);
+        }
+
+        @@keyframes cellFadeInSimple {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+        }
+
+        .admin-table tbody:hover tr:not(:hover) {
+            opacity: 0.6;
+            transform: scale(1);
+            filter: none;
+        }
+        /* Simpler focus */
+        .admin-table tbody tr:hover {
+            transform: translateY(-2px);
+        }
+
+        .add-admin-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .admin-container {
+            padding: 30px;
+            clip-path: polygon(10px 0%, calc(100% - 10px) 0%, 100% 10px, 100% calc(100% - 10px), calc(100% - 10px) 100%, 10px 100%, 0% calc(100% - 10px), 0% 10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-heading {
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 14px 10px;
+            font-size: 0.8rem;
+        }
+
+        .admin-actions a {
+            padding: 8px 12px;
+            font-size: 0.75rem;
+        }
+
+        .add-admin-btn {
+            padding: 15px 35px;
+            font-size: 1rem;
+        }
+
+        .table-responsive-wrapper {
+            margin: 0 -30px;
+            padding: 0 30px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .admin-container {
+            padding: 20px;
+            clip-path: polygon(5px 0%, calc(100% - 5px) 0%, 100% 5px, 100% calc(100% - 5px), calc(100% - 5px) 100%, 5px 100%, 0% calc(100% - 5px), 0% 5px);
+        }
+
+        .admin-heading {
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .admin-table th, .admin-table td {
+            padding: 12px 6px;
+            font-size: 0.7rem;
+        }
+
+        .admin-actions a {
+            padding: 7px 8px;
+            font-size: 0.65rem;
+        }
+
+            .admin-actions a i {
+                margin-right: 4px;
+                font-size: 0.8rem;
+            }
+
+        .add-admin-btn {
+            width: 90%;
+            padding: 14px 20px;
+            font-size: 0.9rem;
+        }
+
+        .table-responsive-wrapper {
+            margin: 0 -20px;
+            padding: 0 20px;
+        }
+    }
+</style>
+
+<div class="admin-container">
+    <div class="corner-decorator top-left"></div>
+    <div class="corner-decorator top-right"></div>
+    <div class="corner-decorator bottom-left"></div>
+    <div class="corner-decorator bottom-right"></div>
+
+    <div class="admin-heading-wrapper">
+        <h2 class="admin-heading">MANAGE ADMINS</h2>
+    </div>
+
+    <div class="table-responsive-wrapper">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th style="--th-index: 1;">@Html.DisplayNameFor(model => model.First().Name)</th>
+                    <th style="--th-index: 2;">@Html.DisplayNameFor(model => model.First().UserId)</th>
+                    <th style="--th-index: 2;">@Html.DisplayNameFor(model => model.First().Password)</th>
+
+                    <th style="--th-index: 3;">@Html.DisplayNameFor(model => model.First().Email)</th>
+                    <th style="--th-index: 4;">@Html.DisplayNameFor(model => model.First().Mobile)</th>
+                    <th style="--th-index: 6;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int i = 0; }
+                @foreach (var item in Model)
+                {
+                    <tr style="--i: @i;">
+                        <td style="--j: 1;">@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td style="--j: 2;">@Html.DisplayFor(modelItem => item.UserId)</td>
+                        <td style="--j: 3;">@Html.DisplayFor(modelItem => item.Password)</td>
+                        <td style="--j: 4;">@Html.DisplayFor(modelItem => item.Email)</td>
+                        <td style="--j: 5;">@Html.DisplayFor(modelItem => item.Mobile)</td>
+                        <td class="admin-actions" style="--j: 7;">
+                            <a href="@Url.Action("EditAdmin", new { id = item.UserId })" class="edit-btn" title="Interface Record">
+                                <i class="fas fa-sliders"></i> Edit
+                            </a>
+                            <a href="@Url.Action("DisplayAdmin", new { id = item.UserId })" class="view-btn" title="Analyze Record">
+                                <i class="fas fa-binoculars"></i> View
+                            </a>
+                            <a href="@Url.Action("DeleteAdmin", new { id = item.UserId })" class="delete-btn" title="Purge Record" onclick="return confirm('CRITICAL: Purge protocol initiated. Irreversible data deletion. Confirm?')">
+                                <i class="fas fa-radiation"></i> Delete
+                            </a>
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="add-admin-btn-wrapper">
+        <a href="@Url.Action("RegisterAdmin", "Account")" class="add-admin-btn">
+            <i class="fas fa-atom"></i> Add New Admin
+        </a>
+    </div>
+</div>

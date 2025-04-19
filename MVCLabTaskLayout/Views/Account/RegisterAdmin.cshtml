@@ -1,0 +1,231 @@
+﻿@model MVCLabTaskLayout.Models.RegisterAdminViewModel
+
+@{
+    ViewBag.Title = "RegisterAdmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+<style>
+    body {
+        background: linear-gradient(-45deg, #1f1c2c, #928DAB, #1f1c2c, #928DAB);
+        background-size: 400% 400%;
+        animation: gradientBG 15s ease infinite;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    .register-container {
+        width: 700px;
+        margin: 60px auto;
+        background-color: rgba(0, 0, 0, 0.85);
+        padding: 30px;
+        border-radius: 30px;
+        box-shadow: 0px 10px 40px #00ffc3;
+        color: white;
+        transform: scale(0.7);
+        opacity: 0;
+        animation: scaleIn 0.8s ease-out forwards;
+    }
+
+    @@keyframes scaleIn {
+        0% {
+            transform: scale(0.7);
+            opacity: 0;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    .register-heading {
+        font-size: 28px;
+        color: chartreuse;
+        animation: bounce-left-right 4s ease-in-out infinite alternate;
+        position: relative;
+        white-space: nowrap;
+        padding: 10px;
+    }
+
+    @@keyframes bounce-left-right {
+        0% {
+            left: 0;
+        }
+
+        100% {
+            left: calc(100% - 260px);
+        }
+    }
+
+    .form-group label {
+        color: #fff;
+    }
+
+    .form-control {
+        background-color: #111 !important;
+        color: #fff !important;
+        border-radius: 10px;
+        border: 2px solid #00ffc3;
+        transition: 0.4s ease;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+        .form-control:focus {
+            background-color: #222 !important;
+            color: #fff !important;
+            box-shadow: 0 0 10px #00ffc3;
+            border-color: #00ffc3;
+        }
+
+    .btn {
+        border-radius: 25px;
+        padding: 10px 25px;
+        font-weight: bold;
+        transition: 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+        background-color: #00ffc3;
+        color: black;
+        box-shadow: 0 0 15px #00ffc3;
+    }
+
+    .btn-danger:hover {
+        background-color: #ff4b5c;
+        color: black;
+        box-shadow: 0 0 15px #ff4b5c;
+    }
+
+    .login-link {
+        color: #00ffc3;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .login-link:hover {
+            text-shadow: 0 0 8px #00ffc3;
+        }
+
+    .success-box {
+        background-color: #00ffc3;
+        color: black;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+        text-align: center;
+        animation: fadeIn 1s ease-out forwards;
+        box-shadow: 0 0 15px #00ffc3;
+    }
+
+    @@keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<div class="register-container" data-aos="zoom-in">
+    <div style="height: 50px; overflow: hidden; position: relative;">
+        <h2 class="register-heading">Admin Registration</h2>
+    </div>
+
+    <hr />
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="success-box">
+            @ViewBag.Message <br />
+            <a href="@Url.Action("Login", "Account")" class="login-link">Click here to login</a>
+        </div>
+    }
+
+    @using (Html.BeginForm("RegisterAdmin", "Account", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.UserId)
+                @Html.EditorFor(model => model.UserId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ConfirmPassword)
+                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Name)
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Email)
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mobile)
+                @Html.EditorFor(model => model.Mobile, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Mobile, "", new { @class = "text-danger" })
+            </div>
+
+            <br />
+
+            <div class="form-group text-center">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input type="reset" value="Reset" class="btn btn-danger" />
+            </div>
+        </div>
+    }
+
+    <div class="text-center mt-3">
+        Already have an Account? @Html.ActionLink("Login Here", "Login", null, new { @class = "login-link" })
+    </div>
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
